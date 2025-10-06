@@ -18,7 +18,7 @@ const withTimeout = (promise, ms) => {
 
 app.get('/', async (req, res) => {
   try {
-    const series = await GetNewSeries();
+    const series = await withTimeout(GetNewSeries(), 10000); // 10 seconds timeout
     const html = `
       <!DOCTYPE html>
       <html lang="es">
