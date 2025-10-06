@@ -163,8 +163,8 @@ app.get('/anime/:id', async (req, res) => {
               <li>
                 <a href=\"/player/${ep.Id}\">${ep.Title}</a>
               </li>
+          </ul>
         </main>
-        <pre>${JSON.stringify(animeInfo, null, 2)}</pre>
       </body>
       </html>
     `;
