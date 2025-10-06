@@ -74,6 +74,8 @@ app.get('/api/episodes/:id', async (req, res) => {
 });
 
 // Start listening
-app.listen(port, () => {
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });

@@ -1,25 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Service Worker Registration (Temporarily commented out for debugging)
-  /*
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/service-worker.js')
-        .then(registration => {
-          console.log('Service Worker registered: ', registration);
-        })
-        .catch(error => {
-          console.log('Service Worker registration failed: ', error);
-        });
-    });
-  }
-  */
-
-  // Original script.js content starts here
   const animeList = document.getElementById('anime-list');
   const latestEpisodesList = document.getElementById('latest-episodes-list');
 
   // Function to fetch and display latest anime
-  fetch('http://YOUR_PUBLIC_API_URL_HERE/api/latest')
+  fetch('/api/latest')
     .then(response => response.json())
     .then(data => {
       data.forEach(anime => {
@@ -30,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         link.href = `anime.html?id=${anime.Id}`;
 
         const title = document.createElement('h3');
-        title.textContent = anime.Title; // Corrected line
+        title.textContent = anime.Title;
         title.classList.add('title');
 
         const image = document.createElement('img');
@@ -49,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
   // Function to fetch and display latest episodes
-  fetch('http://YOUR_PUBLIC_API_URL_HERE/api/latest-episodes')
+  fetch('/api/latest-episodes')
     .then(response => response.json())
     .then(data => {
       data.forEach(episode => {
@@ -57,8 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         episodeItem.classList.add('anime-item'); // Reusing anime-item class for styling
 
         const link = document.createElement('a');
-        const animeSlug = episode.Id.substring(0, episode.Id.lastIndexOf('-'));
-        link.href = `player.html?animeId=${animeSlug}&episodeId=${episode.Id}`;
+        link.href = `player.html?animeId=${episode.Id.substring(0, episode.Id.lastIndexOf('-'))}&episodeId=${episode.Id}`;
 
         const title = document.createElement('h3');
         title.textContent = `${episode.Anime} - Ep ${episode.Title}`;

@@ -8,22 +8,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const episodeId = urlParams.get('episodeId');
 
     if (!animeId || !episodeId) {
-        episodeTitle.textContent = `Error: No se especificó el anime o el episodio. Anime ID: ${animeId}, Episode ID: ${episodeId}`;
+        episodeTitle.textContent = 'Error: No se especificó el anime o el episodio.';
         return;
     }
 
     try {
         // Fetch anime details (for episode list) and episode sources concurrently
         const [animeRes, episodeRes] = await Promise.all([
-            fetch(`http://YOUR_PUBLIC_API_URL_HERE/api/anime/${animeId}`),
-            fetch(`http://YOUR_PUBLIC_API_URL_HERE/api/episodes/${episodeId}`)
+            fetch(`/api/anime/${animeId}`),
+            fetch(`/api/episodes/${episodeId}`)
         ]);
 
-        if (!animeRes.ok) {
-            throw new Error(`Error al cargar detalles del anime (Status: ${animeRes.status}). Anime ID: ${animeId}`);
-        }
-        if (!episodeRes.ok) {
-            throw new Error(`Error al cargar recursos del episodio (Status: ${episodeRes.status}). Episode ID: ${episodeId}`);
+        if (!animeRes.ok || !episodeRes.ok) {
+            throw new Error('No se pudieron cargar los datos del episodio.');
         }
 
         const animeData = await animeRes.json();

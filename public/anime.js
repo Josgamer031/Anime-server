@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const animeId = urlParams.get('id');
 
   if (animeId) {
-    fetch(`http://YOUR_PUBLIC_API_URL_HERE/api/anime/${animeId}`)
+    fetch(`/api/anime/${animeId}`)
       .then(response => response.json())
       .then(data => {
         if (data.error) {

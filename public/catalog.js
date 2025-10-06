@@ -5,9 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchQuery = urlParams.get('search');
   let currentPage = 1;
 
-  function loadCatalog(page, genre = 'all') {
-    currentGenre = genre;
-    fetch(`http://YOUR_PUBLIC_API_URL_HERE/api/catalog?page=${page}`)
+  function loadCatalog(page) {
+    fetch(`/api/catalog?page=${page}`)
       .then(response => response.json())
       .then(data => {
         if (data.error) {
@@ -66,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function loadSearchResults(query) {
-    fetch(`http://YOUR_PUBLIC_API_URL_HERE/api/search?q=${query}`)
+    fetch(`/api/search?q=${query}`)
       .then(response => response.json())
       .then(data => {
         if (data.error) {
