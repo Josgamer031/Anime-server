@@ -162,7 +162,7 @@ app.get('/anime/:id', async (req, res) => {
     res.send(html);
   } catch (error) {
     console.error(error);
-    res.status(500).send('<h1>Error al cargar la información del anime</h1>');
+    res.status(500).send({ error: error.message });
   }
 });
 
