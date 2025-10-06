@@ -10,20 +10,7 @@ const port = 3001;
 // Middleware to serve static files from 'public' directory
 app.use(express.static('public'));
 
-app.get('/', async (req, res) => {
-  try {
-    const latestEpisodes = await GetNewEpisodes();
-    let html = '<h1>Últimos Episodios</h1>';
-    html += '<ul>';
-    latestEpisodes.forEach(episode => {
-      html += `<li><img src="${episode.Image}" width="100"> ${episode.Anime} - ${episode.Title}</li>`;
-    });
-    html += '</ul>';
-    res.send(html);
-  } catch (error) {
-    res.status(500).send('Error al cargar los episodios');
-  }
-});
+
 
 // --- ORIGINAL ANIME API ---
 
