@@ -7,6 +7,47 @@ import { Search } from './node_modules/@carlosnunezmx/animeflv/dist/scrappers/se
 const app = express();
 const port = 3001;
 
+app.get('/', async (req, res) => {
+  try {
+    const episodes = await GetNewEpisodes();
+    const html = `
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AnimeFLV Server</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; background-color: #121212; color: #e0e0e0; margin: 0; padding: 20px; }
+          h1 { text-align: center; color: #fff; }
+          ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+          li { background-color: #1e1e1e; border-radius: 8px; overflow: hidden; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.2s; }
+          li:hover { transform: scale(1.05); }
+          img { max-width: 100%; height: auto; display: block; }
+          p { padding: 15px; margin: 0; font-size: 14px; }
+          strong { color: #fff; }
+        </style>
+      </head>
+      <body>
+        <h1>Últimos Episodios</h1>
+        <ul>
+          ${episodes.map(ep => `
+            <li>
+              <img src="${ep.Image}" alt="${ep.Anime}">
+              <p>${ep.Anime}<br><strong>${ep.Title}</strong></p>
+            </li>
+          `).join('')}
+        </ul>
+      </body>
+      </html>
+    `;
+    res.send(html);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('<h1>Error al cargar los episodios</h1>');
+  }
+});
+
 
 
 
