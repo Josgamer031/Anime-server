@@ -1,8 +1,5 @@
 import express from 'express';
-import { GetNewSeries, GetNewEpisodes } from './node_modules/@carlosnunezmx/animeflv/dist/scrappers/main_page.js';
-import { GetAnimeInfo } from './node_modules/@carlosnunezmx/animeflv/dist/scrappers/anime.js';
-import { GetResources } from './node_modules/@carlosnunezmx/animeflv/dist/scrappers/episode.js';
-import { Search } from './node_modules/@carlosnunezmx/animeflv/dist/scrappers/search.js';
+import { GetNewSeries, GetNewEpisodes, GetAnimeInfo, GetResources, Search } from 'animeflv-api';
 
 const app = express();
 const port = 3001;
