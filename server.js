@@ -150,11 +150,11 @@ app.get('/anime/:id', async (req, res) => {
           <p>${safeDescription}</p>
           <h2>Episodios</h2>
           <ul class="episode-list">
-            ${animeInfo.Episodes.map(ep => `
+            ${animeInfo.Episodes && animeInfo.Episodes.length > 0 ? animeInfo.Episodes.map(ep => `
               <li>
                 <a href=\"/player/${ep.Id}\">${ep.Title}</a>
               </li>
-            `).join('')}
+            `).join('') : '<li>No hay episodios disponibles.</li>'}
           </ul>
         </main>
       </body>
