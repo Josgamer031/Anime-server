@@ -7,35 +7,44 @@ import { Search } from './node_modules/@carlosnunezmx/animeflv/dist/scrappers/se
 const app = express();
 const port = 3001;
 
+// Helper function for timeout
+const withTimeout = (promise, ms) => {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), ms))
+  ]);
+};
+
+
 
 // --- ORIGINAL ANIME API ---
 
 app.get('/api/latest', async (req, res) => {
   try {
-    const latest = await GetNewSeries();
+    const latest = await withTimeout(GetNewSeries(), 10000); // 10 seconds timeout
     res.json(latest);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch latest anime' });
+    res.status(500).json({ error: error.message });
   }
 });
 
 app.get('/api/latest-episodes', async (req, res) => {
   try {
-    const latest = await GetNewEpisodes();
+    const latest = await withTimeout(GetNewEpisodes(), 10000); // 10 seconds timeout
     res.json(latest);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch latest episodes' });
+    res.status(500).json({ error: error.message });
   }
 });
 
 app.get('/api/catalog', async (req, res) => {
   try {
     const page = req.query.page || 1;
-    const catalog = await Search({ page: parseInt(page) });
+    const catalog = await withTimeout(Search({ page: parseInt(page) }), 10000); // 10 seconds timeout
     res.json(catalog);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to fetch catalog' });
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -45,29 +54,29 @@ app.get('/api/search', async (req, res) => {
     if (!query) {
       return res.status(400).json({ error: 'Query parameter "q" is required' });
     }
-    const results = await Search(query);
+    const results = await withTimeout(Search(query), 10000); // 10 seconds timeout
     res.json(results);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to perform search' });
+    res.status(500).json({ error: error.message });
   }
 });
 
 app.get('/api/anime/:id', async (req, res) => {
   try {
-    const animeInfo = await GetAnimeInfo(req.params.id);
+    const animeInfo = await withTimeout(GetAnimeInfo(req.params.id), 10000); // 10 seconds timeout
     res.json(animeInfo);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch anime info' });
+    res.status(500).json({ error: error.message });
   }
 });
 
 app.get('/api/episodes/:id', async (req, res) => {
   try {
-    const resources = await GetResources(req.params.id);
+    const resources = await withTimeout(GetResources(req.params.id), 10000); // 10 seconds timeout
     res.json(resources);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch episode resources' });
+    res.status(500).json({ error: error.message });
   }
 });
 
