@@ -7,6 +7,15 @@ import { Search } from './node_modules/@carlosnunezmx/animeflv/dist/scrappers/se
 const app = express();
 const port = 3001;
 
+// Helper function for timeout
+const withTimeout = (promise, ms) => {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), ms))
+  ]);
+};
+
+
 app.get('/', async (req, res) => {
   try {
     const series = await GetNewSeries();
@@ -110,7 +119,7 @@ app.get('/catalog', async (req, res) => {
 app.get('/anime/:id', async (req, res) => {
   try {
     const animeId = req.params.id;
-    const animeInfo = await GetAnimeInfo(animeId);
+    const animeInfo = await withTimeout(GetAnimeInfo(animeId), 10000); // 10 seconds timeout
 
     if (!animeInfo) {
       return res.status(404).send('<h1>Anime no encontrado</h1>');
