@@ -7,8 +7,7 @@ import { Search } from './node_modules/@carlosnunezmx/animeflv/dist/scrappers/se
 const app = express();
 const port = 3001;
 
-// Middleware to serve static files from 'public' directory
-app.use(express.static('public'));
+
 
 
 
@@ -75,4 +74,7 @@ app.get('/api/episodes/:id', async (req, res) => {
   }
 });
 
-export default app;
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
